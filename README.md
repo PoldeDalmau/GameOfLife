@@ -1,4 +1,4 @@
-# Game of Life – Idle Project 
+# Game of Life – Idle Project
 
  
 ## Goal
