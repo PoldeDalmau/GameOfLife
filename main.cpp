@@ -14,11 +14,23 @@ public:
     GameOfLifeModel(int width, int height)
         : width(width), height(height), grid(height, std::vector<bool>(width, false)) {
         // Initial state: Glider
-        grid[5][8] = true; grid[6][6] = true; grid[6][8] = true; grid[7][7] = true; grid[7][8] = true;
+        grid[5][8] = true;
+        grid[6][6] = true;
+        grid[6][8] = true;
+        grid[7][7] = true;
+        grid[7][8] = true;
         // initial state from wiki
-        //grid[9][9] = true;grid[10][8] = true; grid[10][9] = true;grid[11][9] = true; grid[11][10] = true;
+        // grid[9][9] = true;
+        // grid[10][8] = true;
+        // grid[10][9] = true;
+        // grid[11][9] = true;
+        // grid[11][10] = true;
+
         // initial state Blinker:
-        //grid[5][2] = true;grid[6][2] = true; grid[7][2] = true;
+        //grid[5][2] = true;
+        // grid[6][2] = true;
+        // grid[7][2] = true;
+
     }
 
     void update() {
