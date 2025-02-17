@@ -1,3 +1,6 @@
+#include <QApplication>
+#include <QPushButton>
+#include <QPainter>
 #include <iostream>
 #include <vector>
 #ifdef _WIN32
@@ -6,8 +9,7 @@
     #include <unistd.h>
 #endif // _WIN32
 
-#include <QApplication>
-#include <QPushButton>
+
 
 
 ///////////////////////////
@@ -23,17 +25,8 @@ public:
         grid[6][8] = true;
         grid[7][7] = true;
         grid[7][8] = true;
-        // initial state from wiki
-        // grid[9][9] = true;
-        // grid[10][8] = true;
-        // grid[10][9] = true;
-        // grid[11][9] = true;
-        // grid[11][10] = true;
-
-        // initial state Blinker:
-        //grid[5][2] = true;
-        // grid[6][2] = true;
-        // grid[7][2] = true;
+        // initial state from wiki  // grid[9][9] = true; // grid[10][8] = true;   // grid[10][9] = true; // grid[11][9] = true;   // grid[11][10] = true;
+        // initial state Blinker:   //grid[5][2] = true;   // grid[6][2] = true;  // grid[7][2] = true;
 
     }
 
@@ -134,14 +127,39 @@ private:
     GameOfLifeView* view;
 };
 
+
+class GridWidget : public QWidget {
+    public:
+        GridWidget(QWidget *parent = nullptr) : QWidget(parent) {}
+    
+    protected:
+        void paintEvent(QPaintEvent *) override {
+            QPainter painter(this);
+            painter.setPen(Qt::black);
+            painter.setBrush(Qt::white);
+    
+            int rows = 10;
+            int cols = 10;
+            int cellSize = 20;
+    
+            for (int i = 0; i < rows; ++i) {
+                for (int j = 0; j < cols; ++j) {
+                    int x = j * cellSize;
+                    int y = i * cellSize;
+                    painter.drawRect(x, y, cellSize, cellSize);
+                }
+            }
+        }
+    };
+
 ///////////////////////////
 // MAIN FUNCTION
 ///////////////////////////
 int main(int argc, char *argv[]) {
     
-    // Screen Dimensions
-    const int screen_width = 10;
-    const int screen_height = 10;
+    // Field Dimensions
+    const int screen_width = 20;
+    const int screen_height = 20;
     
     GameOfLifeModel model(screen_width, screen_height);
     GameOfLifeView view(&model);
@@ -150,8 +168,10 @@ int main(int argc, char *argv[]) {
     // controller.run();
 
     QApplication a(argc, argv);
-    QPushButton button("Hello world!", nullptr);
-    button.resize(200, 100);
-    button.show();
-    return QApplication::exec();
+    
+    GridWidget grid;
+    grid.resize(400, 400);
+    grid.show();
+    
+    return a.exec();
 }

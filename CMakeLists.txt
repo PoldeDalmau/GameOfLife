@@ -15,4 +15,3 @@ target_link_libraries(GameOfLife Qt6::Widgets)
 
 include(CTest)
 enable_testing()
-
