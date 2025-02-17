@@ -6,6 +6,10 @@
     #include <unistd.h>
 #endif // _WIN32
 
+#include <QApplication>
+#include <QPushButton>
+
+
 ///////////////////////////
 // MODEL
 ///////////////////////////
@@ -86,7 +90,7 @@ public:
     GameOfLifeView(GameOfLifeModel* model) : model(model) {}
 
     void display(int num_ticks) const {
-        system("clear");
+        // system("clear");
         std::cout << "Tick: " << num_ticks << "\n";
         for (int i = 0; i < model->getHeight(); i++) {
             for (int j = 0; j < model->getWidth(); j++) {
@@ -133,7 +137,7 @@ private:
 ///////////////////////////
 // MAIN FUNCTION
 ///////////////////////////
-int main() {
+int main(int argc, char *argv[]) {
     
     // Screen Dimensions
     const int screen_width = 10;
@@ -143,6 +147,11 @@ int main() {
     GameOfLifeView view(&model);
     GameOfLifeController controller(&model, &view);
 
-    controller.run();
-    return 0;
+    // controller.run();
+
+    QApplication a(argc, argv);
+    QPushButton button("Hello world!", nullptr);
+    button.resize(200, 100);
+    button.show();
+    return QApplication::exec();
 }
