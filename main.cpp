@@ -3,14 +3,12 @@
 #include <QPainter>
 #include <iostream>
 #include <vector>
+
 #ifdef _WIN32
     #include <windows.h>
 #else
     #include <unistd.h>
 #endif // _WIN32
-
-
-
 
 ///////////////////////////
 // MODEL
@@ -25,9 +23,6 @@ public:
         grid[6][8] = true;
         grid[7][7] = true;
         grid[7][8] = true;
-        // initial state from wiki  // grid[9][9] = true; // grid[10][8] = true;   // grid[10][9] = true; // grid[11][9] = true;   // grid[11][10] = true;
-        // initial state Blinker:   //grid[5][2] = true;   // grid[6][2] = true;  // grid[7][2] = true;
-
     }
 
     void update() {
@@ -116,9 +111,9 @@ public:
     void run() {
         int num_ticks = 0;
         while (true) {
-            view->display(num_ticks++);
+            view->display(num_ticks++); // Display each tick in the terminal (optional)
             model->update();
-            view->sleepcp(200);
+            view->sleepcp(200); // Update every 200 ms
         }
     }
 
@@ -127,35 +122,44 @@ private:
     GameOfLifeView* view;
 };
 
-
+///////////////////////////
+// GRID WIDGET (Display)
+///////////////////////////
 class GridWidget : public QWidget {
-    public:
-        GridWidget(QWidget *parent = nullptr) : QWidget(parent) {}
-    
-    protected:
-        void paintEvent(QPaintEvent *) override {
-            QPainter painter(this);
-            painter.setPen(Qt::black);
-            painter.setBrush(Qt::white);
-    
-            int rows = 10;
-            int cols = 10;
-            int cellSize = 20;
-    
-            for (int i = 0; i < rows; ++i) {
-                for (int j = 0; j < cols; ++j) {
-                    int x = j * cellSize;
-                    int y = i * cellSize;
-                    painter.drawRect(x, y, cellSize, cellSize);
+public:
+    GridWidget(GameOfLifeModel* model, QWidget *parent = nullptr) 
+        : model(model), QWidget(parent) {}
+
+protected:
+    void paintEvent(QPaintEvent *event) override {
+        QPainter painter(this);
+        int cellSize = 20;
+        int rows = model->getHeight();
+        int cols = model->getWidth();
+
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                if (model->getCell(i, j)) {
+                    painter.setBrush(Qt::black);  // Live cell
+                } else {
+                    painter.setBrush(Qt::white);  // Dead cell
                 }
+                int x = j * cellSize;
+                int y = i * cellSize;
+                painter.drawRect(x, y, cellSize, cellSize);  // Draw cell
             }
         }
-    };
+    }
+
+private:
+    GameOfLifeModel* model;
+};
 
 ///////////////////////////
 // MAIN FUNCTION
 ///////////////////////////
 int main(int argc, char *argv[]) {
+    QApplication a(argc, argv);
     
     // Field Dimensions
     const int screen_width = 20;
@@ -165,13 +169,13 @@ int main(int argc, char *argv[]) {
     GameOfLifeView view(&model);
     GameOfLifeController controller(&model, &view);
 
-    // controller.run();
-
-    QApplication a(argc, argv);
-    
-    GridWidget grid;
-    grid.resize(400, 400);
+    // Create Grid Widget and Display Initial State
+    GridWidget grid(&model);
+    grid.resize(screen_width * 20, screen_height * 20);  // Adjust size based on grid dimensions
     grid.show();
     
+    // Optional: run controller in background to update game state
+    // controller.run();
+
     return a.exec();
 }
