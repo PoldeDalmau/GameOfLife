@@ -1,6 +1,8 @@
+#include <QtCore>
 #include <QApplication>
-#include <QPushButton>
+#include <QWidget>
 #include <QPainter>
+#include <QTimer>
 #include <iostream>
 #include <vector>
 
@@ -18,11 +20,20 @@ public:
     GameOfLifeModel(int width, int height)
         : width(width), height(height), grid(height, std::vector<bool>(width, false)) {
         // Initial state: Glider
-        grid[5][8] = true;
-        grid[6][6] = true;
-        grid[6][8] = true;
-        grid[7][7] = true;
-        grid[7][8] = true;
+        // grid[5][8] = true;
+        // grid[6][6] = true;
+        // grid[6][8] = true;
+        // grid[7][7] = true;
+        // grid[7][8] = true;
+
+        // initial state from wiki  
+        grid[9][9] = true; grid[10][8] = true;   grid[10][9] = true; grid[11][9] = true;   grid[11][10] = true;
+        
+        // initial state Blinker:
+        // grid[5][2] = true;   grid[6][2] = true;  grid[7][2] = true;
+
+
+
     }
 
     void update() {
@@ -100,27 +111,6 @@ private:
     GameOfLifeModel* model;
 };
 
-///////////////////////////
-// CONTROLLER
-///////////////////////////
-class GameOfLifeController {
-public:
-    GameOfLifeController(GameOfLifeModel* model, GameOfLifeView* view)
-        : model(model), view(view) {}
-
-    void run() {
-        int num_ticks = 0;
-        while (true) {
-            view->display(num_ticks++); // Display each tick in the terminal (optional)
-            model->update();
-            view->sleepcp(200); // Update every 200 ms
-        }
-    }
-
-private:
-    GameOfLifeModel* model;
-    GameOfLifeView* view;
-};
 
 ///////////////////////////
 // GRID WIDGET (Display)
@@ -156,26 +146,61 @@ private:
 };
 
 ///////////////////////////
+// CONTROLLER
+///////////////////////////
+class GameOfLifeController : public QObject {
+    Q_OBJECT
+public:
+    GameOfLifeController(GameOfLifeModel* model, GridWidget* view)
+        : model(model), view(view) {
+        
+        // Create QTimer and set 1-second interval
+        QTimer* timer = new QTimer(this);
+        timer->setInterval(100);  // 1000 ms = 1 second
+        
+        // Connect QTimer's timeout signal to the update slot
+        connect(timer, &QTimer::timeout, this, &GameOfLifeController::updateGame);
+        
+        // Start the timer
+        timer->start();
+    }
+
+public slots:
+    void updateGame() {
+        // Update the model state
+        model->update();
+
+        // Redraw the GridWidget
+        view->update();
+    }
+
+private:
+    GameOfLifeModel* model;
+    GridWidget* view;
+};
+///////////////////////////
 // MAIN FUNCTION
 ///////////////////////////
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     
     // Field Dimensions
-    const int screen_width = 20;
-    const int screen_height = 20;
+    const int screen_width = 50;
+    const int screen_height = 50;
     
     GameOfLifeModel model(screen_width, screen_height);
-    GameOfLifeView view(&model);
-    GameOfLifeController controller(&model, &view);
-
-    // Create Grid Widget and Display Initial State
     GridWidget grid(&model);
-    grid.resize(screen_width * 20, screen_height * 20);  // Adjust size based on grid dimensions
-    grid.show();
+    GameOfLifeController controller(&model, &grid);
+
+    // // Create Grid Widget and Display Initial State
     
     // Optional: run controller in background to update game state
     // controller.run();
+    grid.resize(screen_width * 20, screen_height * 20);  // Adjust size based on grid dimensions
+    grid.show();
 
     return a.exec();
 }
+
+
+#include "main.moc"

@@ -7,6 +7,11 @@ set(CMAKE_PREFIX_PATH "C:/Qt/6.8.2/mingw_64/bin/")
 # Find the required Qt components
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
 
+#Enable MOC
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+
 # Add the executable
 add_executable(GameOfLife main.cpp)
 
