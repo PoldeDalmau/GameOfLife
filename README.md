@@ -1,5 +1,6 @@
 # Game of Life – Idle Project
 
+![](DemoMedia/GameOfLifeVideo.gif)
  
 ## Goal
 Make Conway’s Game of Life and visualize it using C++ and Qt. 
