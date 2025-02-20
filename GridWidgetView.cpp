@@ -1,11 +1,15 @@
 #include "GridWidgetView.h"
 
 GridWidgetView::GridWidgetView(GameOfLifeModel* model, QWidget *parent)
-    : model(model), QWidget(parent) {}
-
-void GridWidgetView::paintEvent(QPaintEvent *event) {
+    : model(model), QWidget(parent) {
+    }
+    
+    void GridWidgetView::paintEvent(QPaintEvent *event) {
+    // resize the grid to fit the window
+    setFixedSize(model->get_max_pixel_side() * model->getWidth()/std::max(model->getWidth(), model->getHeight()), model->get_max_pixel_side() * model->getHeight()/std::max(model->getWidth(), model->getHeight()));
+        
     QPainter painter(this);
-    int cellSize = 20;
+    int cellSize = model->get_max_pixel_side() / std::max(model->getWidth(), model->getHeight());
     int rows = model->getHeight();
     int cols = model->getWidth();
 

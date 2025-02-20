@@ -14,18 +14,14 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     
     // Field Dimensions
-    const int screen_width = 50;
-    const int screen_height = 50;
+    const int screen_width = 70;
+    const int screen_height = 70;
     
     GameOfLifeModel model(screen_width, screen_height);
+    model.initializeGliderGun();
     GridWidgetView grid(&model);
     GameOfLifeController controller(&model, &grid);
 
-    // // Create Grid Widget and Display Initial State
-    
-    // Optional: run controller in background to update game state
-    // controller.run();
-    grid.resize(screen_width * 20, screen_height * 20);  // Adjust size based on grid dimensions
     grid.show();
 
     return a.exec();

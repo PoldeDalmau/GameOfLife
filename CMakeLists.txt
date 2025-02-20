@@ -23,7 +23,7 @@ add_executable(GameOfLife
                 GameOfLifeModel.cpp
                 GridWidgetView.cpp
                 GameOfLifeController.cpp
-                )
+)
 
 #gtest
 add_executable(GameOfLifeTests test_game_of_life.cpp GameOfLifeModel.cpp)
