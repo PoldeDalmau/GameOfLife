@@ -3,14 +3,21 @@
 
 #include <QWidget>
 #include <QPainter>
+#include <QPushButton>
+#include <QMessageBox>
 #include "GameOfLifeModel.h"
 
 class GridWidgetView : public QWidget {
     Q_OBJECT
 public:
     GridWidgetView(GameOfLifeModel* model, QWidget *parent = nullptr);
+    void drawButton();
+    void handleButtonClick();
 
-protected:
+    signals:
+    void startGame();
+
+    protected:
     void paintEvent(QPaintEvent *event) override;
 
 private:

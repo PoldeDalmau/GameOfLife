@@ -16,12 +16,13 @@ public:
     int get_max_pixel_side() const;
     void initializeGlider();
     void initializeBlinker();
+    void initializeStableEnd();
     void initializeGliderGun();
     void initializeRandom();
 
 private:
     int width, height;
-    int max_pixel_side = 700;
+    int max_pixel_side = 900;
     std::vector<std::vector<bool>> grid;
 
     int countNeighbors(int x, int y) const;

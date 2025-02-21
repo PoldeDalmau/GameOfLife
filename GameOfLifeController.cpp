@@ -2,16 +2,9 @@
 
 GameOfLifeController::GameOfLifeController(GameOfLifeModel* model, GridWidgetView* view)
     : model(model), view(view) {
-    
-    // Create QTimer and set 1-second interval
-    QTimer* timer = new QTimer(this);
-    timer->setInterval(100);  // 1000 ms = 1 second
-    
-    // Connect QTimer's timeout signal to the update slot
+    timer = new QTimer(this);
+    timer->setInterval(100);  // 100 ms interval
     connect(timer, &QTimer::timeout, this, &GameOfLifeController::updateGame);
-    
-    // Start the timer
-    timer->start();
 }
 
 void GameOfLifeController::updateGame() {
@@ -20,4 +13,9 @@ void GameOfLifeController::updateGame() {
 
     // Redraw the GridWidgetView
     view->update();
+}
+
+void GameOfLifeController::startGameLoop() {
+    // Start the timer
+    timer->start();
 }

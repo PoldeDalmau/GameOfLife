@@ -25,4 +25,18 @@ GridWidgetView::GridWidgetView(GameOfLifeModel* model, QWidget *parent)
             painter.drawRect(x, y, cellSize, cellSize);  // Draw cell
         }
     }
+
+
+}
+
+void GridWidgetView::drawButton() {
+    QPushButton* button = new QPushButton("Click Me", this);
+    button->setGeometry(QRect(QPoint(10, 10), QSize(80, 30)));
+
+    connect(button, &QPushButton::clicked, this, &GridWidgetView::handleButtonClick);
+}
+
+void GridWidgetView::handleButtonClick() {
+    // Emit the startGame signal
+    emit startGame();
 }

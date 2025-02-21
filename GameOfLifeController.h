@@ -13,10 +13,12 @@ public:
 
 public slots:
     void updateGame();
+    void startGameLoop();
 
-private:
+    private:
     GameOfLifeModel* model;
     GridWidgetView* view;
+    QTimer* timer;
 };
 
 #endif // GAMEOFLIFECONTROLLER_H
