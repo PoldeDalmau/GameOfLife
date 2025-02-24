@@ -1,8 +1,8 @@
 #include <QApplication>
 // #include <iostream>
-#include "GameOfLifeModel.h"
-#include "GridWidgetView.h"
-#include "GameOfLifeController.h"
+#include "src/GameOfLifeModel.h"
+#include "src/GridWidgetView.h"
+#include "src/GameOfLifeController.h"
 
 #ifdef _WIN32
     #include <windows.h>

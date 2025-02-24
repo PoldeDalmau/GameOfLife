@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "GameOfLifeModel.h"
+#include "src/GameOfLifeModel.h"
 
 TEST(GameOfLifeModelTest, InitialState) {
     GameOfLifeModel model(20, 20);

@@ -19,7 +19,7 @@ set(CMAKE_AUTORCC ON)
 
 # Add the executable
 add_executable(GameOfLife
-                src/main.cpp
+                main.cpp
                 src/GameOfLifeModel.cpp
                 src/GridWidgetView.cpp
                 src/GameOfLifeController.cpp
