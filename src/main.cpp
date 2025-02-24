@@ -2,7 +2,7 @@
 // #include <iostream>
 #include "GameOfLifeModel.h"
 #include "GridWidgetView.h"
-#include "GameOfLifeController.h"  // Include the new header file
+#include "GameOfLifeController.h"
 
 #ifdef _WIN32
     #include <windows.h>

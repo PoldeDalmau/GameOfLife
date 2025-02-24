@@ -19,14 +19,14 @@ set(CMAKE_AUTORCC ON)
 
 # Add the executable
 add_executable(GameOfLife
-                main.cpp
-                GameOfLifeModel.cpp
-                GridWidgetView.cpp
-                GameOfLifeController.cpp
+                src/main.cpp
+                src/GameOfLifeModel.cpp
+                src/GridWidgetView.cpp
+                src/GameOfLifeController.cpp
 )
 
 #gtest
-add_executable(GameOfLifeTests test_game_of_life.cpp GameOfLifeModel.cpp)
+add_executable(GameOfLifeTests test_game_of_life.cpp src/GameOfLifeModel.cpp)
 target_link_libraries (GameOfLifeTests gtest GTest::gtest_main gmock)
 # Add tests to ctest
 add_test(NAME GameOfLifeTests COMMAND GameOfLifeTests)
